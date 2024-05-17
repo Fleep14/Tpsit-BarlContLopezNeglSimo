@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+#customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #000000; /* Nero */
+  padding: 8px;
+}
+
+#customers tr:nth-child(odd){background-color: #fff705c4;color: #f2f2f2}
+#customers tr:nth-child(even){background-color: #e81818c1;color: #f2f2f2}
+
+#customers tr:hover {background-color: #e2910d;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #0055A4; 
+  color: #FFFFFF; 
+}
+</style>
+<script
+src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js">
+</script> <!-- IMPORT JQUERY (libreria per ajax) -->
+
+<script>
+  //ready impone di far girare il codice dopo che tutto l'html è stato caricato
+  //clausure: funzioni come parametri di altre funzioni (funzione mia nella funzione ready)
+  //il dollaro è il selettore della libreria jquery (document_getElementBy)
+  $(document).ready(function(){
+    $.ajax({ //metodo di jquery per dire di fare le chiamate asincrone
+      url: "http://127.0.0.1:81/webservice"
+    }).then(function(data){ //funzione di success se la chiamata va a buon fine
+        loadList(data);
+        });
+  });
+
+  function loadList(data){ 
+    var table = $("#customers tbody"); //id della tabella
+    //qui il dollaro è un alias di jquery
+    $.each(data, function(i, elem){ 
+      table.append("<tr> <td>"+elem.nome+"</td> <td>"+elem.livello+"</td> <td>"+elem.grado+"</td> </tr>");
+    });
+}
+
+  $(document).on( "ajaxError", function() {
+    alert( "Errore." );
+} );
+
+</script>
+
+
+</head>
+<body>
+
+<h1>Tabella del Lecce</h1>
+
+<table id="customers">
+  <tr>
+    <th style="color: #302828">Country</th>
+    <th style="color: #302828">Mfr_CommonName</th>
+    <th style="color: #302828">Mfr_Name</th>
+  </tr>
+  
+</table>
+
+</body>
+</html>
